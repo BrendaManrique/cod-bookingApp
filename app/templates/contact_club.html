@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Sobre nosotros {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+     <!-- navbar -->
+    {% if user.is_authenticated %}
+        {% include 'navbar_content.html'%}
+        {% include 'subnavbar.html' %}
+    {% else %}
+        {% include 'navbar_index.html' %}
+    {% endif %}
+    <!-- /navbar -->
+
+
+    <div class="canvas-iconclap" >
+       <div class="content box-opacity round-3 " >
+
+              <h2>Contáctanos si eres un club</h2>
+                </br> </br>
+              <h3>¿ Cómo los contacto ?</h3>
+           </br>
+                <p>Envía un correo a admin@clap.com indicando los datos con los cuales podemos contactarte.</p>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}

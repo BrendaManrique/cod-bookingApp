@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Club - Sede {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+     <!-- navbar -->
+    {% if user.is_authenticated %}
+        {% include 'navbar_content.html'%}
+     <!--   {% include 'subnavbar.html' %}-->
+    {% else %}
+        {% include 'navbar_index.html' %}
+    {% endif %}
+    <!-- /navbar -->
+    <div class="canvas-clubselector">
+         <div class="container content ">
+           <!-- <div class="row box-content round-9">-->
+
+                <div class="col-md-8 col-sm-8 col-xs-12 selector-club-tab-container">
+                     <div class="col-md-3 col-sm-3 col-xs-3 selector-club-tab-menu">
+                          <div class="list-group">
+                              {% for clubPartner_tmp in clubsPartner %}
+                            <a href="#" class="list-group-item text-center {% if forloop.first %}active{% endif %}">
+                              <h4 class="glyphicon glyphicon-credit-card"></h4><br/>{{ clubPartner_tmp.club.name }}
+                            </a>
+                             {% endfor %}
+                          </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 selector-club-tab">
+
+
+                            {% for clubPartner_tmp in clubsPartner %}
+
+                            <div class="selector-club-tab-content {% if forloop.first %}active{% endif %}">
+                                <center>
+                                    <img class="img-responsive img-brand" alt="Brand"  src="{% static clubPartner_tmp.club.logo.url %}">
+                                   </br>
+                                    <h1>{{ clubPartner_tmp.club.name }}</h1>
+                                    {% for club_seat_tmp in clubPartner_tmp.club.get_seats %}
+                                    <hr>
+                                    <h2>Sede: {{ club_seat_tmp.name }}</h2>
+
+                                    <div class="row">
+                                        {% for category_tmp in club_seat_tmp.get_categories %}
+
+                                        <div class=" col-md-4 col-sm-6 col-xs-12">
+                                            </br>
+                                            <h3>{{ category_tmp.name }}</h3>
+                                            </br>
+                                            {% for club_seat_activity_tmp in category_tmp.club_seat_activities %}
+                                            <a href="{% url 'reservation_activity' clubPartner_tmp.club.slug club_seat_tmp.slug club_seat_activity_tmp.activity.slug %}">
+                                                <p>{{ club_seat_activity_tmp.activity.name }}</p>
+                                            </a>
+
+                                            {% endfor %}
+                                        </div>
+                                        {% endfor %}
+
+                                    </div>
+                                        </br>
+                                    {% endfor %}
+                                </center>
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                </div>
+             <div class="col-md-4 col-sm-4 col-xs-12 ">
+                 <div class="selector-club-tab-container selector-club-right">
+                     <div class="box-selector-club-right">
+                        <h2>¿Eres socio de otro club?</h2></br>
+                        <p>Con tu cuenta en CLAP, puedes reservar actividades en todos los clubes a los que perteneces.</p></br>
+                         <center>
+                            <button onClick="location.href='{% url 'profile' %}'" class="btn btn-default btn-add-club">Agregar CLUB</button>
+                         </center>
+                    </div>
+                 </div>
+             </div>
+        <!--  </div>-->
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

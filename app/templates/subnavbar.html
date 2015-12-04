@@ -1,0 +1,40 @@
+{% load url from future %}
+
+<div class="canvas-subnavbar">
+
+    <div class="tabs-category" role="tabpanel">
+        <div class="">
+            <div class="box-navbar ">
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for category in club_seat.get_categories %}
+                        <li role="presentation">
+                            <a href="#category{{ category.id }}" id="category{{ category.id }}-tab" role="tab"
+                               data-toggle="tab"
+                               aria-controls="category{{ category.id }}" aria-expanded="false">{{ category.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content tabs-activity round-3 ">
+            {% for category in club_seat.get_categories %}
+                <div role="tabpanel" class="content-pills tab-pane fade" id="category{{ category.id }}"
+                     aria-labelledby="category{{ category.id }}-tab">
+                    <p>
+                    <ul class="nav nav-pills ">
+                        {% for club_seat_activity_tmp in category.club_seat_activities %}
+                            <li role="presentation">
+                                <a href="{% url 'reservation_activity' club.slug club_seat.slug club_seat_activity_tmp.activity.slug %}">
+                                    {{ club_seat_activity_tmp.activity.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>

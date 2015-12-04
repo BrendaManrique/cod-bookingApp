@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Ayuda {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+     <!-- navbar -->
+    {% if user.is_authenticated %}
+        {% include 'navbar_content.html'%}
+        {% include 'subnavbar.html' %}
+    {% else %}
+        {% include 'navbar_index.html' %}
+    {% endif %}
+    <!-- /navbar -->
+
+
+    <div class="canvas-iconclap" >
+       <div class="content box-opacity round-3 " >
+
+              <h2>Preguntas frecuentes</h2>
+                </br> </br>
+              <h3>¿ Qué es CLAP ?</h3>
+           </br>
+                <p>Es la aplicación web que te permitirá reservar cualquier actividad por medio de tu telefono celular o computadora, ya no tendrás que asistir a local en el cual estás afiliado. Basta con un solo click y podrás disfrutar de los servicios exclusivamente para tí.</p>
+                </br></br>
+                <h3>¿ Necesito pagar por alguna suscripción ?</h3>
+           </br>
+                <p>No, CLAP no tiene costo alguno para los asociados a los clubes afiliados al sistema.</p>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+

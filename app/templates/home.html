@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+hello world
+<br/>
+{% load url from future %}
+{% load socialaccount %}
+
+{% if user.is_authenticated %}
+    <a href="{% url 'account_logout' %}" class="pull-right">logout</a>
+    <a href="/accounts/profile" class="pull-right">My Account</a>
+{% else %}
+    <a href="{% url 'account_signup' %}" class="pull-right">Sing up</a>
+    <a href="{% url 'account_login' %}" class="pull-right">Login</a>
+    <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
+{% endif %}
+</body>
+</html>

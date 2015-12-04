@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Inicio {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+<header>
+     <!-- navbar_index -->
+        {% include 'navbar_index.html' %}
+    <!-- /navbar_index -->
+</header>
+<section>
+    <div class="canvas-banner wow fadeInUp " data-wow-delay="0.4s">
+        <div class="row center">
+            <div class="col-md-6 hidden-phone box-left-banner">
+                      <h1>¡RESERVA</h1>
+                      <h3>ACTIVIDADES EN TU</h3><div class="title-huge">CLUB</div>
+                     <img class="img-responsive center" src="{% static 'images/flat_tree.png' %}">
+                      <h2>favorito!</h2>
+            </div>
+            <div class="col-md-6 box-right-banner center">
+                 <div class="box-title-loginForm">
+                         <h1>Registrarse</h1>
+                    </div>
+                     <div class="box-content-loginForm">
+                        <form class="form-horizontal" role="form" action="{% url 'account_signup' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" id="inputemail" placeholder="Email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="inputpassword" placeholder="Contraseña" name="password1">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="inputpassword" placeholder="Confirmar contraseña" name="password2">
+                                <input id="id_confirmation_key" name="confirmation_key" type="hidden">
+                            </div>
+                            <div id="registrar_btn">
+                                <label class="btn1 btn-2 btn-2g"><input name="submit" type="submit" id="submit" value="Entrar"></label>
+                            </div>
+                        </form>
+                     </div>
+            </div>
+        </div>
+    </div>
+
+
+   <div class="canvas-steps wow bounceInRight" data-wow-delay="0.4s">
+        <div class="content box-steps " >
+
+              <h1 class="center-text">¿ CÓMO FUNCIONA CLAP ?</h1>
+              <h3 class="center-text">Acceso limitado a socios</h3>
+
+            <div class="row smpl-step wow fadeInUp real" data-wow-delay="0.4s" >
+                <div class="col-sm-4">
+                 <ul class="service_grid">
+                    <i class="s1"> </i>
+                    <li class="desc wow fadeInRight" data-wow-delay="0.4s">
+                        <h2>REGISTRA</h2>
+                        <h3>tus credenciales </h3>
+                        <p> Deberás ser socio de algún club afiliado. Registra tu identificador de socio y empieza a reservar!</p>
+                    </li>
+                 </ul></br>
+               </div>
+               <div class="col-sm-4">
+                    <ul class="service_grid">
+                        <i class="s2"> </i>
+                        <li class="desc wow fadeInRight" data-wow-delay="0.4s">
+                            <h2>BUSCA</h2>
+                            <h3>la actividad </h3>
+                            <p> Podrás encontrar la actividad que buscas, por su descripción, ubicación o disposición.</p>
+                        </li>
+                    </ul></br>
+               </div>
+                 <div class="col-sm-4">
+                    <ul class="service_grid">
+                        <i class="s3"> </i>
+                        <li class="desc wow fadeInRight" data-wow-delay="0.4s">
+                            <h2>RESERVA</h2>
+                            <h3>al instante </h3>
+                            <p> Una vez indicada la fecha y horas reservadas, disfruta la actividad reservada exclusivamente para tí!</p>
+                        </li>
+                    </ul>
+               </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+   </div>
+</div>
+</section>
+{% endblock %}

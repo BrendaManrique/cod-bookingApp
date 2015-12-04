@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Perfil {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+     <!-- navbar -->
+    {% if user.is_authenticated %}
+        {% include 'navbar_content.html'%}
+     <!--   {% include 'subnavbar.html' %}-->
+    {% else %}
+        {% include 'navbar_index.html' %}
+    {% endif %}
+    <!-- /navbar -->
+    <div class="canvas-clubselector">
+
+         <div class="container content ">
+
+                <div class="col-md-8 col-sm-8 col-xs-12 selector-club-tab-container">
+                     <div class="col-md-3 col-sm-3 col-xs-3 selector-club-tab-menu">
+                          <div class="list-group">
+                            <a href="#" class="list-group-item  text-center">
+                              <h4 class="glyphicon glyphicon-user"></h4><br/>Personal
+                            </a>
+                            <a href="#" class="list-group-item active text-center">
+                              <h4 class="glyphicon glyphicon-credit-card"></h4><br/>Socio
+                            </a>
+
+                           <a href="#" class="list-group-item  text-center">
+                              <h4 class="glyphicon glyphicon-wrench"></h4><br/>Privado
+                            </a>
+                          </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 selector-club-tab">
+                             <div class="selector-club-tab-content ">
+                                <h2>Datos Personales</h2>
+                                 </br>
+                                 <h3>Nombre: </h3><p>{{ user.first_name }}</p>
+                                  </br>
+                                 <h3>Apellidos: </h3><p>{{ user.last_name }}</p>
+                                  </br>
+                                 <h3>Email: </h3><p>{{ user.email }}</p>
+                                  </br>
+                                 <h3>Ultima sesión: </h3><p>{{ user.last_login }}</p>
+                            </div>
+                            <div class="selector-club-tab-content active">
+                                <h2>Soy socio del club:</h2>
+                                 </br>
+                                <form  method="post" action="{% url 'welcome' %}">
+                                    {% csrf_token %}
+                                    {{ form.user }}
+                                    <select  class="form-control" type="list" name="club" id="club" required="required">
+                                        <option value="" disabled="disabled" selected="selected">Seleccione club</option>
+                                        {% for c in clubs %}
+                                            <option value="{{ c.id }}">{{ c.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </br>
+                                    <input type="text" class="form-control" name="dni" id="dni" required="required" placeholder="DNI">
+                                    </br>
+                                    <input type="text"  class="form-control" name="code" id="code" required="required" placeholder="Código de socio">
+                                    </br>
+                                    <label class="btn1 btn-2 btn-2g btn3"><input name="submit" type="submit" value="Guardar"></label>
+                                </form>
+                            </div>
+                            <div class="selector-club-tab-content">
+                                <h2>Privacidad</h2>
+                                 </br>
+                                 <h3>Contraseña actual:</h3>
+                                </br><p>**********</p></br>
+                                 <h3>Nueva contraseña: </h3>
+                                </br><p>________</p>
+
+                            </div>
+                        </div>
+                </div>
+             <div class="col-md-4 col-sm-4 col-xs-12 ">
+                 <div class="selector-club-tab-container selector-club-right">
+                     <div class="box-selector-club-right">
+                         {% if clubsPartner %}
+                            {% if clubsPartner.length == 1 %}
+                                <h2>Perteneces al club:</h2>
+                                </br>
+                                <h3>  clubsPartner[0].name</h3>
+                                </br>
+                            {% else %}
+                                <h2>Perteneces a los clubes:</h2>
+                                </br>
+                                <ul>
+                                    {% for clubPartner in clubsPartner %}
+                                        <li><h3>- {{ clubPartner.club.name }}</h3></li>
+                                    {% endfor %}
+                                </ul>
+                                </br>
+                            {% endif %}
+                        {% else %}
+                            <h2>¿A qué club perteneces?</h2>
+                            </br>
+                            <p>Con tu cuenta en CLAP puedes reservar actividades en tus clubes favoritos. ¡Agrega tus credenciales y empieza a disfrutar!</p>
+                            </br>
+                        {% endif %}
+                    </div>
+                 </div>
+             </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

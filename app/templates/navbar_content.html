@@ -1,0 +1,70 @@
+{% load url from future %}
+{% load staticfiles %}
+
+<div class="canvas-navbar">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="content ">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#content-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <div class="navbar-brand">
+                  <!--<a  href="{% url 'welcome' %}">-->
+                  <a  href="#">
+                      <ul class="nav navbar-nav">
+                        {% if is_club_page %}
+                            <li><img class="img-responsive img-brand" alt="Brand"  src="{% static club.logo.url %}"></li>
+                        {% else %} <!-- is settings-->
+                            <li><img class="img-responsive img-brand" alt="Brand" src="{% static 'images/brand/logo_64.png' %}"></li>
+                        {% endif %}
+
+                    </ul>
+                 </a>
+              </div>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="content-navbar-collapse">
+               <div class="navbar-opt1 pull-left">
+                   <ul class="nav navbar-nav">
+                   {% if is_club_page %}
+                        <li><div id="navbar-brandname" >{{ club.name }}</div></li>
+                   {% else %} <!-- is settings-->
+                        <li><a href="{% url 'faq' %}">Ayuda</a></li>
+                   {% endif %}
+                  </ul>
+               </div>
+
+              <div class="navbar-opt2 navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'welcome' %}">MAPA ACTIVIDADES<span class="sr-only">(current)</span></a></li>
+                 <!--   {% if clubsPartner.length > 1 %}
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">CAMBIAR CLUB <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+                        <ul class="dropdown-menu">
+                           {% for clubPartner in clubsPartner %}
+                                <li><a href="#" >{{ clubPartner.club.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}-->
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">BIENVENIDO, {{ user.username }} <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'profile' %}" ><i class="icon-cog"></i> Preferencias</a></li>
+                            <li><a href="{% url 'faq' %}"><i class="icon-envelope"></i> Ayuda</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'account_logout' %}" ><i class="icon-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+
+</div>

@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Reservaciones {% endblock %}
+{% block stylesheet %}
+    <link href="{% static 'css/datepick.css' %}" rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block content %}
+    <header>
+        <!-- navbar -->
+        {% include 'navbar_content.html' %}
+        <!-- /navbar -->
+        <!-- subnavbar -->
+        {% include 'subnavbar.html' %}
+        <!-- /subnavbar -->
+    </header>
+    <section>
+<!--        <div class="canvas-search container-fluid">
+
+        </div>-->
+        <div class="canvas-booking container-fluid">
+            <div class="content">
+                <div class="row content-search">
+                    <!-- searchbar-->
+                    <div class="box-search search col-xs-12 col-sm-6 col-md-6">
+
+                        <form id="form-date" class="form-horizontal" role="form" action="" method="post" >
+                            {% csrf_token %}
+                                <div class="btn-date pull-left">
+                                    <div class="inline">
+                                        <input type="text" id="id-date"  class="datepicker" name="day"  autocomplete="off" readonly value="{{ day|date:'d-m-Y' }}"/>
+{#                                        <input type="hidden" id="is_show_list" name="is_show_list" value="true">#}
+                                    </div>
+                                     <div class="inline">
+                                        <label class="btn1 btn-2 btn-2g btn3 inline">
+                                            <input name="submit" type="submit" id="submit" value="" class="no-padding"/>  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                         </label>
+                                     </div>
+                                </div>
+                        </form>
+                    </div>
+                    <!--/searchbar-->
+                    <!-- viewbar -->
+                    <div class="box-view  col-xs-12 col-sm-6 col-md-6">
+                        <div class="btn-group pull-right " role="group" aria-label="..." data-toggle="buttons">
+                            <a href="#vList" data-toggle="tab" class="btn btn-default {% if not show_tab_calendar %}active{% endif %}">
+                                <input type="radio" name="options" id="vl">Vista Lista</a>
+   <!--                         <a href="#vMap" data-toggle="tab" class="btn btn-default ">
+                               <input type="radio" name="options" id="vm">Vista Mapa</a>-->
+                            <a href="#vCalendar" data-toggle="tab" class="btn btn-default {% if show_tab_calendar %}active{% endif %}">
+                                <input type="radio" name="options" id="vc">Vista Calendario</a>
+                        </div>
+                    </div>
+                    <!-- viewbar -->
+                </div>
+
+                <!-- <div id="output">
+                     <div class="ajaxProgress">
+                         <h3>Espere por favor...</h3>
+                         <img src="" alt="cargando" />
+                     </div>
+                 </div>-->
+
+                <!-- mainContainer -->
+                <div class="box-content round-9" id="box-content">
+                    <div class="tab-content">
+                        <div class="tab-pane {% if not show_tab_calendar %}active{% endif %}" id="vList">
+                            {% include 'booking_vList.html' %}
+                        </div>
+                       <!-- <div class="tab-pane" id="vMap">
+                            {% include 'booking_vMap.html' %}
+                        </div>-->
+                        <div class="tab-pane {% if show_tab_calendar %}active{% endif %}" id="vCalendar">
+                            {% include 'booking_vCalendar.html' %}
+                        </div>
+                    </div>
+                </div>
+                <!--/mainContainer -->
+            </div>
+        </div>
+        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Ir arriba"
+           data-toggle="tooltip" data-placement="left">
+            <span class="glyphicon glyphicon-chevron-up"></span></a>
+    </section>
+{% endblock %}
+
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/jquery.datepick.js' %}"></script>
+    <script>
+        $(function () {
+            var $categoryTab = $('#category{{ club_seat_activity.activity.category.id }}-tab');
+            console.log('category{{ club_seat_activity.activity.category.id }}-tab');
+            var $categoryContent = $('#category{{ club_seat_activity.activity.category.id }}');
+            $($categoryTab.parent()).addClass('active');
+            $categoryContent.addClass('in').addClass('active');
+        });
+
+{#        $("[href='#vList']").click(function(){#}
+{#            $('#form-date').find('#is_show_list').val(true);#}
+{#        });#}
+{#        $("[href='#vCalendar']").click(function(){#}
+{#            $('#form-date').find('#is_show_list').val(false);#}
+{#        });#}
+    </script>
+{% endblock %}

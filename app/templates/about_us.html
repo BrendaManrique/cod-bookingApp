@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Sobre nosotros {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+     <!-- navbar -->
+    {% if user.is_authenticated %}
+        {% include 'navbar_content.html'%}
+        {% include 'subnavbar.html' %}
+    {% else %}
+        {% include 'navbar_index.html' %}
+    {% endif %}
+    <!-- /navbar -->
+
+
+    <div class="canvas-iconclap" >
+       <div class="content box-opacity round-3 " >
+
+              <h2>Sobre nosotros</h2>
+                </br> </br>
+              <h3>¿ Qué es CLAP ?</h3>
+           </br>
+                <p>Somos una iniciativa que se está introduciendo en el mercado de las asociaciones "clubs" que necesitan de la tecnología para resolver necesidades y agilizar sus procesos.</p>
+                </br></br>
+                <p>El equipo está compuesto por profesionales y emprendedores en el rubro.</p>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
