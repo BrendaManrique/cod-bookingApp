@@ -1,0 +1,35 @@
+{% extends 'app/layout.html' %}
+{% load staticfiles %}
+{% block title %}CLAP | Sobre nosotros {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+     <!-- navbar -->
+    {% if user.is_authenticated %}
+        {% include 'app/navbar_content.html' %}
+
+    {% else %}
+        {% include 'app/navbar_index.html' %}
+    {% endif %}
+    <!-- /navbar -->
+
+
+    <div class="canvas-iconclap" >
+       <div class="content box-opacity round-3 " >
+
+              <h2>SOBRE NOSOTROS</h2>
+                </br> </br>
+              <h3>¿ Qué es CLUB ?</h3>
+           </br>
+                <p>Somos wisi quam lorem vestibulum nec nibh, sollicitudin volutpat at libero litora, non adipiscing. Nulla nunc porta lorem, nascetur pede massa mauris lectus lectus, in magnis, praesent turpis. Ut wisi luctus ullamcorper. De la tecnología para resolver necesidades y agilizar sus procesos.</p>
+                </br></br>
+                <p>El equipo está compuesto por profesionales y emprendedores en el rubro.</p>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
