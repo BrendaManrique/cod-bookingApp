@@ -1,0 +1,214 @@
+{% load url from future %}
+{% load staticfiles %}
+{% block stylesheet %}
+
+{% endblock %}
+
+<div class="content-header">
+    <h2>{{ seat.name }} - {{seat_activity.activity.name}}</h2>
+    <hr>
+    <h3>{{ day|date:'D, d-m-Y' }}</h3>
+
+    <p><strong>{{ seat_activity_places|length }}</strong> resultados</p>
+</div>
+
+{% for seat_activity_place_tmp in seat_activity_places %}
+    <div class="panel panel-default box-item" id="seat_activity_places{{ seat_activity_place_tmp.id }}">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-3">
+                    <img class="img-responsive" src="{% static seat_activity_place_tmp.photo.url %}">
+                </div>
+                <div class="col-xs-6 col-sm-9 col-md-9 box-opacity box-opacity-item">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
+                        <h3>{{ seat_activity_place_tmp.name }}</h3></br>
+                        <p>{{ seat_activity_place_tmp.description }}</p>
+                        </br>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-md-3">
+                        <button type="button" class="btn btn-default btn-nav btn-reservar" data-toggle="collapse"
+                                data-target="#info_{{ seat_activity_place_tmp.id }}" aria-expanded="true"
+                                aria-controls="info_{{ seat_activity_place_tmp.id }}">
+                            Reservar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row box-table-list">
+                 <div class="table-responsive calendar">
+                    <table class="table">
+                        <tr>
+                            <td data-target="09:00_09:30">09:00</td>
+                            <td data-target="09:30_10:00">09:30</td>
+                            <td data-target="10:00_10:30">10:00</td>
+                            <td data-target="10:30_11:00">10:30</td>
+                            <td data-target="11:00_11:30">11:00</td>
+                            <td data-target="11:30_12:00">11:30</td>
+                            <td data-target="12:00_12:30">12:00</td>
+                            <td data-target="12:30_13:00">12:30</td>
+                            <td data-target="13:00_13:30">13:00</td>
+                            <td data-target="13:30_14:00">13:30</td>
+                            <td data-target="14:00_14:30">14:00</td>
+                            <td data-target="14:30_15:00">14:30</td>
+                            <td data-target="15:00_15:30">15:00</td>
+                            <td data-target="15:30_16:00">15:30</td>
+                            <td data-target="16:00_16:30">16:00</td>
+                            <td data-target="16:30_17:00">16:30</td>
+                            <td data-target="17:00_17:30">17:00</td>
+                            <td data-target="17:30_18:00">17:30</td>
+                            <td data-target="18:00_18:30">18:00</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div class="row">
+                <div id="info_{{ seat_activity_place_tmp.id }}" class="collapse">
+
+                    <form action="{% url 'app:do_reservation' %}" method="post">
+                        <input type="hidden" id="startIndex"/>
+                        <input type="hidden" id="clickState" value="0"/>
+                        <br/>
+                        <ul>
+                            {% for reservation in seat_activity_place_tmp.reservations %}
+                                <li>Ocupado el {{ reservation.date }} - {{ reservation.start_time|time:'H:i' }}
+                                    - {{ reservation.end_time|time:'H:i' }} </li>
+                            {% endfor %}
+                        </ul>
+                        <br/>
+                        <script>
+                            $(function () {
+                                var $table = $('#vList #seat_activity_places{{ seat_activity_place_tmp.id }}');
+                                var $tr = $table.find('tr');
+                                {% for reservation_tmp in seat_activity_place_tmp.reservations %}
+                                    var startTime = '{{ reservation_tmp.start_time|time:'H:i' }}';
+                                    var endTime = '{{ reservation_tmp.end_time|time:'H:i' }}';
+                                    var reservedByCurrentUser = false;
+                                    {% if reservation_tmp.user_id == request.user.id %}
+                                        reservedByCurrentUser = true;
+                                    {% endif %}
+
+                                    var $start_time, $end_time;
+                                    $tr.children('td').each(function () {
+                                        var $td = $(this);
+                                        var start_time_tmp = getStartTimeFromTd($td);
+                                        var end_time_tmp = getEndTimeFromTd($td);
+                                        if (startTime == start_time_tmp) {
+                                            $start_time = $td;
+                                        }
+                                        if (endTime == end_time_tmp) {
+                                            $end_time = $td;
+                                        }
+                                    });
+
+                                    var cell_start_index = $tr.children().index($start_time);
+                                    var cell_end_index = $tr.children().index($end_time);
+
+                                    for (var i = cell_start_index; i <= cell_end_index; i++) {
+                                        $($tr.children()[i]).addClass('not_empty');
+                                        if (reservedByCurrentUser) {
+{#                                            $($tr.children()[i]).text('tu');#}
+                                        }
+                                    }
+
+                                {% endfor %}
+                                $tr.find('td').each(function () {
+                                    if (!$(this).hasClass('default') && !$(this).hasClass('not_empty')) {
+                                        $(this).addClass('empty');
+                                    }
+                                });
+                            });
+                        </script>
+
+                        <div id="activity_place{{ seat_activity_place_tmp.id }}_message">
+                            <div class="pull-left label-reservar"><p>Reservar {{ seat_activity_place_tmp.name }} el día </p></div>
+                            <input type="date" class="form-control control-booking-date pull-left" name="date"
+                                          value="{{ day|date:'Y-m-d' }}" readonly/>
+                            <div class="pull-left label-reservar"><p> desde las </p></div>
+                            <input type="text" class="form-control control-booking-time pull-left " name="start_time"
+                                             id="startTime" placeholder="__:__" readonly/>
+                             <div class="pull-left label-reservar"><p>hasta las </p></div>
+                            <input type="text" class="form-control control-booking-time pull-left " name="end_time" id="endTime"
+                                             readonly placeholder="__:__"/>
+                        </div>
+                        {% csrf_token %}
+                        <input type="hidden" name="seatActivityPlace"
+                               value="{{ seat_activity_place_tmp.id }}"/>
+                        <input type="hidden" name="user" value="{{ request.user.id }}"/>
+                        <input type="hidden" name="is_show_list" value="true">
+
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-danger form-control">Confirmar reservación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+
+    var SELECTED_NONE = 0;
+    var SELECTED_FIRST = 1;
+    var SELECTED_SECOND = 2;
+
+    $('#vList tr').on('click', 'td.empty', function () {
+        var $td = $(this);
+        var $tr = $($td.parent());
+        var panel_id = $($td.parents('.panel-default')).attr('id');
+        var $clubActivityPlace = $('#vList #' + panel_id);
+        var $clickState = $clubActivityPlace.find('#clickState');
+        var $startIndex = $clubActivityPlace.find('#startIndex');
+        var startIndex = $startIndex.val();
+
+        var endIndex, lastIndex, tmp;
+
+        if ($clickState.val() > SELECTED_FIRST) {
+            $clubActivityPlace.find('.empty.selected').removeClass('selected');
+            $clickState.val(SELECTED_NONE);
+            setStartTime($clubActivityPlace);
+            setEndTime($clubActivityPlace);
+        }
+
+        if ($clickState.val() == SELECTED_NONE) {
+            startIndex = $tr.children().index($td);
+            setStartTime($clubActivityPlace, getStartTimeFromTd($td));
+            setEndTime($clubActivityPlace, getEndTimeFromTd($td));
+        }
+
+        if ($clickState.val() == SELECTED_FIRST) {
+            endIndex = $tr.children().index($td);
+            lastIndex = endIndex;
+            if (endIndex < startIndex) {
+                tmp = startIndex;
+                startIndex = endIndex + 1;
+                endIndex = tmp;
+                setEndTime($clubActivityPlace, getEndTime($clubActivityPlace));
+                setStartTime($clubActivityPlace, getStartTimeFromTd($td));
+            } else {
+                setEndTime($clubActivityPlace, getEndTimeFromTd($td));
+            }
+
+            startIndex = createOrCleanPeriodTime($tr, startIndex, endIndex);
+            if (startIndex == -1) {
+                startIndex = lastIndex;
+                setStartTime($clubActivityPlace, getStartTimeFromTd($td));
+                setEndTime($clubActivityPlace, getEndTimeFromTd($td));
+                $clickState.val(SELECTED_NONE);
+            }
+        }
+
+        tmp = $clickState.val();
+        if ($td.hasClass('selected')) {
+            tmp--;
+            $td.removeClass('selected');
+        } else {
+            tmp++;
+            $td.addClass('selected');
+        }
+        $clickState.val(tmp);
+        $startIndex.val(startIndex);
+
+    });
+</script>

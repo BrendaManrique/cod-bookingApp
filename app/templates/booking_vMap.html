@@ -1,0 +1,41 @@
+{% load url from future %}
+{% load staticfiles %}
+{% block stylesheet %}
+
+{% endblock %}
+
+<div class="content-header">
+    MAPA del local
+    </br>
+    <hr>
+
+
+</div>
+<div id="imgMap">
+    <img id="imgMapFloor"  src="{% static 'images/floorplan.png' %}" alt="" usemap="#Map" />
+<map name="Map" id="Map">
+    <area  id="Piscina1" alt="Piscina1" title="Piscina1" href="#Piscina1" shape="poly" coords="66,387,68,437,412,438,408,385" />
+    <area   alt="Piscina2" title="Piscina2" href="#Piscina2" shape="poly" coords="452,297,475,315,528,246,503,232" />
+    <area   alt="Piscina3" title="Piscina3" href="#Piscina3" shape="poly" coords="628,364,650,329,578,278,555,306" />
+    <area alt="Cancha1" title="Cancha1" href="#Cancha1" shape="poly" coords="268,247,221,247,221,323,267,323" />
+    <area alt="Piscina5" title="Piscina5" href="#Piscina5" shape="poly" coords="665,229,528,132,596,129,638,162" />
+    <area alt="Piscina6" title="Piscina6" href="#Piscina6" shape="poly" coords="521,550,562,579,591,548,588,539,626,484,591,464" />
+</map>
+
+
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/jquery.rwdImageMaps.min.js' %}"></script>
+<script>
+//Reload
+$(window).load(function(e) {
+    $('img[usemap]').rwdImageMaps();
+
+    $('area').on('click', function() {
+        alert($(this).attr('alt') + ' presionado');
+    });
+
+
+});
+</script>
